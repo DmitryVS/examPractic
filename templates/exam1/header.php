@@ -37,8 +37,27 @@ IncludeTemplateLangFile(__FILE__);
                 <div class="logo-block"><a href="" class="logo">Мебельный магазин</a>
                 </div>
                 <div class="main-phone-block">
-                    <a href="tel:84952128506" class="phone">8 (495) 212-85-06</a>
-                    <div class="shedule">время работы с 9-00 до 18-00</div>
+                	
+<? if((date('H')>=9)and(date('H')<=18)){ ?>
+<?
+$APPLICATION->IncludeFile(
+	SITE_TEMPLATE_PATH."/include/phone.php",
+	Array(),
+	Array("MODE"=>"html")
+);
+?>
+ <?
+        } else {?><?
+
+$APPLICATION->IncludeFile(
+	SITE_TEMPLATE_PATH."/include/mail.php",
+	Array(),
+	Array("MODE"=>"html")
+);
+?><?}
+        	?>
+
+                    
                 </div>
                 <div class="actions-block">
                     <form action="/" class="main-frm-search">
@@ -77,76 +96,46 @@ IncludeTemplateLangFile(__FILE__);
             <div class="inner-wrap">
                 <div class="menu-block popup-wrap">
                     <a href="" class="btn-menu btn-toggle"></a>
-                    <div class="menu popup-block">
-                        <ul class="">
-                            <li class="main-page"><a href="">Главная</a>
-                            </li>
-                            <li>
-                                <a href="">Компания</a>
-                                <ul>
-                                    <li>
-                                        <a href="">Пункт 1</a>
-                                        <ul>
-                                            <li><a href="">Пункт 1</a>
-                                            </li>
-                                            <li><a href="">Пункт 2</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="">Пункт 2</a>
-                                    </li>
-                                    <li><a href="">Пункт 3</a>
-                                    </li>
-                                    <li><a href="">Пункт 4</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a href="">Новости</a>
-                            </li>
-                            <li>
-                                <a href="">Каталог</a>
-                                <ul>
-                                    <li>
-                                        <a href="">Пункт 1</a>
-                                        <ul>
-                                            <li><a href="">Пункт 1</a>
-                                            </li>
-                                            <li><a href="">Пункт 2</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="">Пункт 2</a>
-                                    </li>
-                                    <li><a href="">Пункт 3</a>
-                                    </li>
-                                    <li><a href="">Пункт 4</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a href="">Фотогалерея</a>
-                            </li>
-                            <li><a href="">Партнерам</a>
-                            </li>
-                            <li><a href="">Контакты</a>
-                            </li>
-                        </ul>
-                        <a href="" class="btn-close"></a>
-                    </div>
+                    <?$APPLICATION->IncludeComponent(
+	"bitrix:menu", 
+	"horizontal", 
+	array(
+		"ROOT_MENU_TYPE" => "top",
+		"MAX_LEVEL" => "3",
+		"CHILD_MENU_TYPE" => "left",
+		"USE_EXT" => "Y",
+		"MENU_CACHE_TYPE" => "A",
+		"MENU_CACHE_TIME" => "36000000",
+		"MENU_CACHE_USE_GROUPS" => "Y",
+		"MENU_CACHE_GET_VARS" => array(
+		),
+		"COMPONENT_TEMPLATE" => "horizontal",
+		"DELAY" => "N",
+		"ALLOW_MULTI_SELECT" => "N"
+	),
+	false,
+	array(
+		"ACTIVE_COMPONENT" => "Y"
+	)
+);?>
+                    
+                        
                     <div class="menu-overlay"></div>
                 </div>
             </div>
         </nav>
         <!-- /nav -->
-          <? if(getCurPath!="/"){
+          <? if(GetPagePath()!="/"){
         ?>
         <!-- breadcrumbs -->
-        <div class="breadcrumbs-box">
-            <div class="inner-wrap">
-                <a href="">Главная</a>
-                <a href="">Мебель</a>
-                <span>Выставки и события</span>
-            </div>
-        </div>
+        <?$APPLICATION->IncludeComponent("bitrix:breadcrumb", "template1", Array(
+	"PATH" => "",	// Путь, для которого будет построена навигационная цепочка (по умолчанию, текущий путь)
+		"SITE_ID" => "s1",	// Cайт (устанавливается в случае многосайтовой версии, когда DOCUMENT_ROOT у сайтов разный)
+		"START_FROM" => "0",	// Номер пункта, начиная с которого будет построена навигационная цепочка
+	),
+	false
+);?>
+        
         <!-- /breadcrumbs -->
         <?
         } ?>
@@ -158,10 +147,10 @@ IncludeTemplateLangFile(__FILE__);
                 <div class="content">
                     <div class="cnt">
       
-        <? if(getCurPath!="/"){
+        <? if(GetPagePath()!="/"){
         ?>
             <header>
-                <h1>Заголовок страницы</h1>
+                <h1>Заголlddовок страницы</h1>
             </header>
             <hr>
         <?
